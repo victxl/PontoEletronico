@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.DepartamentoService;
 import util.Alerts;
 
 import java.io.IOException;
@@ -29,11 +30,13 @@ public class MainViewController implements Initializable {
         public void onMenuItemVendedor(ActionEvent event) {
             System.out.println("Vendedor");
         }
-    @FXML
+
+        @FXML
         public void onMenuItemDepartamento(ActionEvent event) {
-        loadView("/com/pontoeletronico/ListaDepartamento.fxml");
+            loadView2("/com/pontoeletronico/ListaDepartamento.fxml");
         }
-    @FXML
+
+        @FXML
         public void onMenuItemSobre(ActionEvent event) {
            loadView("/com/pontoeletronico/SobreView.fxml");
         }
@@ -57,6 +60,28 @@ public class MainViewController implements Initializable {
             mainVbox.getChildren().clear();
             mainVbox.getChildren().add(mainMenu);
             mainVbox.getChildren().addAll(newVBox.getChildren());
+
+        } catch (IOException e) {
+            Alerts.showAlert("IO Exception","ERRO carregando view",e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+    private synchronized void  loadView2(String absoluteNome) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteNome));
+            VBox newVBox = loader.load();
+
+            Scene mainScene = Main.getMainScene();
+            VBox mainVbox = (VBox) ((ScrollPane)mainScene.getRoot()).getContent();
+
+            Node mainMenu = mainVbox.getChildren().get(0);
+            mainVbox.getChildren().clear();
+            mainVbox.getChildren().add(mainMenu);
+            mainVbox.getChildren().addAll(newVBox.getChildren());
+
+            ListaDeDepartamentoController controller = loader.getController();
+            controller.setDepartamentoService(new DepartamentoService());
+            controller.updateTableView();
 
         } catch (IOException e) {
             Alerts.showAlert("IO Exception","ERRO carregando view",e.getMessage(), Alert.AlertType.ERROR);
