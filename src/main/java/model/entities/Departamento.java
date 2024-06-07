@@ -10,20 +10,22 @@ public class Departamento implements Serializable {
     private Integer id;
     private String nome;
 
-    public Departamento() {
 
-    }
 
-    public Departamento(int id, String nome) {
+    public Departamento(Integer id, String nome) {
         this.id = id;
         this.nome = nome;
     }
 
-    public int getId() {
+    public Departamento() {
+
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,7 +42,7 @@ public class Departamento implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Departamento that = (Departamento) o;
-        return id == that.id;
+        return Objects.equals(id, that.id);
     }
 
     @Override
@@ -50,8 +52,6 @@ public class Departamento implements Serializable {
 
     @Override
     public String toString() {
-        return "Departamento " +
-                "id=" + id +
-                ", nome='" + nome ;
+        return "Departamento id= " + id +", nome='" + nome + "'" ;
     }
 }
