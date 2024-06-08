@@ -4,15 +4,23 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Departamento;
 import model.services.DepartamentoService;
+import util.Alerts;
+import util.Utils;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -37,7 +45,8 @@ public class ListaDeDepartamentoController implements Initializable {
 
     @FXML
     public void onBtnNovo(ActionEvent event) {
-        System.out.println("deu bom");
+        Stage parentStage = Utils.currentStage(event);
+        createDialogForm("/com/pontoeletronico/FormDepartamento.fxml",parentStage);
     }
 
 
@@ -70,5 +79,31 @@ public class ListaDeDepartamentoController implements Initializable {
         obsList = FXCollections.observableArrayList(list);
         tableViewDepartamento.setItems(obsList);
     }
+
+
+    private void createDialogForm(String absoluteNome, Stage parentStage) {
+        URL fxmlFile = getClass().getResource(absoluteNome);
+        if (fxmlFile == null) {
+            Alerts.showAlert("Erro", "Arquivo FXML não encontrado", "Arquivo: " + absoluteNome, Alert.AlertType.ERROR);
+            return;
+        }
+
+        try {
+            FXMLLoader loader = new FXMLLoader(fxmlFile);
+            Pane pane = loader.load();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Digite o nome do departamento");
+            dialogStage.setScene(new Scene(pane));
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(parentStage);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerts.showAlert("IO Exception", "Erro ao carregar view", e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
 
 }
