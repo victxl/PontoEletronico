@@ -46,7 +46,8 @@ public class ListaDeDepartamentoController implements Initializable {
     @FXML
     public void onBtnNovo(ActionEvent event) {
         Stage parentStage = Utils.currentStage(event);
-        createDialogForm("/com/pontoeletronico/FormDepartamento.fxml",parentStage);
+        Departamento obj = new Departamento();
+        createDialogForm(obj,"/com/pontoeletronico/FormDepartamento.fxml",parentStage);
     }
 
 
@@ -81,16 +82,16 @@ public class ListaDeDepartamentoController implements Initializable {
     }
 
 
-    private void createDialogForm(String absoluteNome, Stage parentStage) {
+    private void createDialogForm(Departamento obj,String absoluteNome, Stage parentStage) {
         URL fxmlFile = getClass().getResource(absoluteNome);
-        if (fxmlFile == null) {
-            Alerts.showAlert("Erro", "Arquivo FXML não encontrado", "Arquivo: " + absoluteNome, Alert.AlertType.ERROR);
-            return;
-        }
 
         try {
             FXMLLoader loader = new FXMLLoader(fxmlFile);
             Pane pane = loader.load();
+
+            FormDepartamentoController controller = loader.getController();
+            controller.setDEPARTAMENTO(obj);
+            controller.updateFormData();
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Digite o nome do departamento");
