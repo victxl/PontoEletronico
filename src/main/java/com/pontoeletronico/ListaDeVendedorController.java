@@ -22,6 +22,7 @@ import util.Utils;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -38,6 +39,16 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
 
     @FXML
     private TableColumn<Vendedor, String> tableColumnNome;
+
+    @FXML
+    private TableColumn<Vendedor, String> tableColumnEmail;
+
+    @FXML
+    private TableColumn<Vendedor, Date> tableColumnDataNascimento;
+
+    @FXML
+    private TableColumn<Vendedor, Double> tableColumnSalario;
+
 
     @FXML
     private TableColumn<Vendedor, Vendedor> tableColumnEdit;
@@ -74,10 +85,12 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
     private void initializeNodes(){
 
         tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));;
-
-
-
+        tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+        tableColumnDataNascimento.setCellValueFactory(new PropertyValueFactory<>("dataNascimento"));
+        Utils.formatTableColumnDate(tableColumnDataNascimento,"dd/MM/yyyy");
+        tableColumnSalario.setCellValueFactory(new PropertyValueFactory<>("salario"));
+        Utils.formatTableColumnDouble(tableColumnSalario, 2);
 
         Stage stage = (Stage) Main.getMainScene().getWindow();
         tableViewVendedor.prefHeightProperty().bind(stage.heightProperty());
