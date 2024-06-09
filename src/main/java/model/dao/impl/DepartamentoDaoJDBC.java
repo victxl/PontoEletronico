@@ -89,7 +89,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
         ResultSet rs = null;
         try {
             st = conn.prepareStatement(
-                    "SELECT * FROM cursojava.departamento WHERE id = ? ");
+                    "SELECT * FROM pontoeletronico.departamento WHERE id = ? ");
             st.setInt(1, id);
 
             rs = st.executeQuery();
@@ -122,7 +122,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
         ResultSet rs = null;
         try {
             st = conn.prepareStatement(
-                    "SELECT * FROM cursojava.departamento ORDER BY id ASC ");
+                    "SELECT * FROM pontoeletronico.departamento ORDER BY id ASC ");
 
             rs = st.executeQuery();
 
