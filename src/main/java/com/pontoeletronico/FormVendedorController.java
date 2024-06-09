@@ -4,10 +4,7 @@ import db.DbException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import listeners.DataChageListener;
 import model.entities.Vendedor;
 import model.exceptions.ValidacaoException;
@@ -17,6 +14,8 @@ import util.Constraints;
 import util.Utils;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 public class FormVendedorController implements Initializable {
@@ -34,7 +33,22 @@ public class FormVendedorController implements Initializable {
     private TextField txtNome;
 
     @FXML
+    private TextField txtEmail;
+
+    @FXML
+    private DatePicker dpDataNascimento;
+
+    @FXML
+    private TextField txtSalario;
+
+    @FXML
     private Label labelErroNome;
+    @FXML
+    private Label labelErroEmail;
+    @FXML
+    private Label labelErroDataNascimento;
+    @FXML
+    private Label labelErroSalario;
 
     @FXML
     Button btnSalvar;
@@ -120,7 +134,9 @@ public class FormVendedorController implements Initializable {
 
     private void initializeNodes (){
         Constraints.setTextFieldInteger(txtID);
-        Constraints.setTextFieldMaxLength(txtNome,30);
+        Constraints.setTextFieldMaxLength(txtNome,70);
+        Constraints.setTextFieldMaxLength(txtEmail,60);
+        Utils.formatDatePicker(dpDataNascimento,"dd/MM/yyyy");
     }
 
     public void updateFormData(){
@@ -128,8 +144,13 @@ public class FormVendedorController implements Initializable {
             throw new IllegalStateException("Entidade esta nulla");}
         txtID.setText(String.valueOf(entity.getId()));
         txtNome.setText(entity.getNome());
-
-    }
+        txtEmail.setText(entity.getEmail());
+        Locale.setDefault(Locale.US);
+        txtSalario.setText(String.format("%.2f",entity.getSalario()));
+       if (entity.getDataNascimento() != null) {
+           dpDataNascimento.setValue(LocalDate.ofInstant(entity.getDataNascimento().toInstant(), ZoneId.systemDefault()));
+       }
+  }
 
     private void setMensagemDeErro(Map<String, String> erros){
         Set<String> fields = erros.keySet();
