@@ -111,27 +111,27 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
     private void createDialogForm(Vendedor obj,String absoluteNome, Stage parentStage) {
         URL fxmlFile = getClass().getResource(absoluteNome);
 
-//        try {
-//            FXMLLoader loader = new FXMLLoader(fxmlFile);
-//            Pane pane = loader.load();
-//
-//            FormVendedorController controller = loader.getController();
-//            controller.setDEPARTAMENTO(obj);
-//            controller.setVendedorService(new VendedorService());
-//            controller.subscribeDataChageListener(this);
-//            controller.updateFormData();
-//
-//            Stage dialogStage = new Stage();
-//            dialogStage.setTitle("Digite o nome do vendedor");
-//            dialogStage.setScene(new Scene(pane));
-//            dialogStage.setResizable(false);
-//            dialogStage.initOwner(parentStage);
-//            dialogStage.initModality(Modality.WINDOW_MODAL);
-//            dialogStage.showAndWait();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Alerts.showAlert("IO Exception", "Erro ao carregar view", e.getMessage(), Alert.AlertType.ERROR);
-//        }
+        try {
+            FXMLLoader loader = new FXMLLoader(fxmlFile);
+            Pane pane = loader.load();
+
+            FormVendedorController controller = loader.getController();
+            controller.setDEPARTAMENTO(obj);
+            controller.setVendedorService(new VendedorService());
+            controller.subscribeDataChageListener(this);
+            controller.updateFormData();
+
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Digite o nome do vendedor");
+            dialogStage.setScene(new Scene(pane));
+            dialogStage.setResizable(false);
+            dialogStage.initOwner(parentStage);
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Alerts.showAlert("IO Exception", "Erro ao carregar view", e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
 
