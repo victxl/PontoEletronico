@@ -1,5 +1,6 @@
 package com.pontoeletronico;
 
+import db.DbIntegrityException;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,6 +23,7 @@ import util.Utils;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class ListaDeDepartamentoController implements Initializable , DataChageListener {
@@ -39,6 +41,9 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
 
     @FXML
     private TableColumn<Departamento, Departamento> tableColumnEdit;
+
+    @FXML
+    private TableColumn<Departamento, Departamento> tableColumnDelete;
 
     @FXML
     private Button btNovo;
@@ -86,6 +91,7 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
         obsList = FXCollections.observableArrayList(list);
         tableViewDepartamento.setItems(obsList);
         initBtnEdit();
+        initDeleteEntity();
     }
 
 
@@ -139,6 +145,41 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
             }
         });
     }
+
+    private void initDeleteEntity() {
+        tableColumnDelete.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        tableColumnDelete.setCellFactory(param -> new TableCell<Departamento, Departamento>() {
+            private final Button button = new Button("DELETAR");
+            @Override
+            protected void updateItem(Departamento obj, boolean empty) {
+                super.updateItem(obj, empty);
+                if (obj == null) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(button);
+                    button.setOnAction(event -> deleteEntity(obj));
+            }
+        });
+    }
+    private void deleteEntity(Departamento obj) {
+       Optional<ButtonType> result = Alerts.showConfirmation("Confirmação","Você quer mesmo Deletar?");
+
+       if (result.get() == ButtonType.OK) {
+           if (service == null){
+               throw new IllegalStateException("Service was null!");
+           }
+           try {
+               service.delete(obj);
+               updateTableView();
+           }catch (DbIntegrityException e){
+               Alerts.showAlert("Erro ao remover",null,e.getMessage(), Alert.AlertType.ERROR);
+           }
+       }
+
+
+    }
+
 
 
 
