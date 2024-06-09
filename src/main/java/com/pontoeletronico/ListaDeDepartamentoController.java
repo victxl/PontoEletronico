@@ -1,5 +1,6 @@
 package com.pontoeletronico;
 
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,10 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
@@ -40,9 +38,14 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
     private TableColumn<Departamento, String> tableColumnNome;
 
     @FXML
+    private TableColumn<Departamento, Departamento> tableColumnEdit;
+
+    @FXML
     private Button btNovo;
 
     private ObservableList<Departamento> obsList;
+
+
 
     @FXML
     public void onBtnNovo(ActionEvent event) {
@@ -55,6 +58,8 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
     public void setDepartamentoService(DepartamentoService service) {
         this.service = service;
     }
+
+
 
 
     @Override
@@ -80,6 +85,7 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
         List<Departamento> list = service.findAll();
         obsList = FXCollections.observableArrayList(list);
         tableViewDepartamento.setItems(obsList);
+        initBtnEdit();
     }
 
 
@@ -114,4 +120,26 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
     public void dataChage() {
         updateTableView();
     }
+
+    private void initBtnEdit() {
+        tableColumnEdit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+        tableColumnEdit.setCellFactory(param -> new TableCell<Departamento, Departamento>() {
+            private final Button btn = new Button("edit");
+            @Override
+            protected void updateItem(Departamento obj, boolean empty) {
+                super.updateItem(obj, empty);
+                if (obj == null) {
+                    setGraphic(null);
+                    return;
+                }
+                setGraphic(btn);
+                btn.setOnAction(
+                        event -> createDialogForm(
+                                obj, "/com/pontoeletronico/FormDepartamento.fxml",Utils.currentStage(event)));
+            }
+        });
+    }
+
+
+
 }
