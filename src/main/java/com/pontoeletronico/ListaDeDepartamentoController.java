@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import listeners.DataChageListener;
 import model.entities.Departamento;
 import model.services.DepartamentoService;
 import util.Alerts;
@@ -25,7 +26,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class ListaDeDepartamentoController implements Initializable {
+public class ListaDeDepartamentoController implements Initializable , DataChageListener {
 
     private DepartamentoService service;
 
@@ -92,6 +93,7 @@ public class ListaDeDepartamentoController implements Initializable {
             FormDepartamentoController controller = loader.getController();
             controller.setDEPARTAMENTO(obj);
             controller.setDepartamentoService(new DepartamentoService());
+            controller.subscribeDataChageListener(this);
             controller.updateFormData();
 
             Stage dialogStage = new Stage();
@@ -108,4 +110,8 @@ public class ListaDeDepartamentoController implements Initializable {
     }
 
 
+    @Override
+    public void dataChage() {
+        updateTableView();
+    }
 }
