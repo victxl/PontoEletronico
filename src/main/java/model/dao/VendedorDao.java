@@ -7,10 +7,13 @@ import java.util.List;
 
 public interface VendedorDao {
 
-    void insertVendedor(Vendedor obj);
-    void updateVendedor(Vendedor obj);
-    void deleteVendedor(int obj);
-    Vendedor findById(int id);
+    void insert(Vendedor obj);
+    void update(Vendedor obj);
+    void delete(Integer obj);
+    Vendedor findById(Integer id);
+
+
+
     List<Vendedor> findAll();
     List<Vendedor> findByDepartamento(Departamento departamento);
 
