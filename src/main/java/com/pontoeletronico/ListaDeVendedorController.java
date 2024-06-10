@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ListaDeVendedorController implements Initializable , DataChageListener {
+public class ListaDeVendedorController implements Initializable, DataChageListener {
 
     private VendedorService service;
 
@@ -63,12 +63,11 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
     private ObservableList<Vendedor> obsList;
 
 
-
     @FXML
     public void onBtnNovo(ActionEvent event) {
         Stage parentStage = Utils.currentStage(event);
         Vendedor obj = new Vendedor();
-        createDialogForm(obj,"/com/pontoeletronico/FormVendedor.fxml",parentStage);
+        createDialogForm(obj, "/com/pontoeletronico/FormVendedor.fxml", parentStage);
     }
 
 
@@ -77,19 +76,18 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
     }
 
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeNodes();
- }
-    private void initializeNodes(){
+    }
+
+    private void initializeNodes() {
 
         tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         tableColumnDataNascimento.setCellValueFactory(new PropertyValueFactory<>("dataNascimento"));
-        Utils.formatTableColumnDate(tableColumnDataNascimento,"dd/MM/yyyy");
+        Utils.formatTableColumnDate(tableColumnDataNascimento, "dd/MM/yyyy");
         tableColumnSalario.setCellValueFactory(new PropertyValueFactory<>("salario"));
         Utils.formatTableColumnDouble(tableColumnSalario, 2);
 
@@ -97,8 +95,8 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
         tableViewVendedor.prefHeightProperty().bind(stage.heightProperty());
     }
 
-    public void updateTableView(){
-        if(service==null){
+    public void updateTableView() {
+        if (service == null) {
             throw new IllegalStateException("Service was null!");
         }
         List<Vendedor> list = service.findAll();
@@ -109,7 +107,7 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
     }
 
 
-    private void createDialogForm(Vendedor obj,String absoluteNome, Stage parentStage) {
+    private void createDialogForm(Vendedor obj, String absoluteNome, Stage parentStage) {
         URL fxmlFile = getClass().getResource(absoluteNome);
 
         try {
@@ -146,6 +144,7 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
         tableColumnEdit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         tableColumnEdit.setCellFactory(param -> new TableCell<Vendedor, Vendedor>() {
             private final Button btn = new Button("edit");
+
             @Override
             protected void updateItem(Vendedor obj, boolean empty) {
                 super.updateItem(obj, empty);
@@ -156,7 +155,7 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
                 setGraphic(btn);
                 btn.setOnAction(
                         event -> createDialogForm(
-                                obj, "/com/pontoeletronico/FormVendedor.fxml",Utils.currentStage(event)));
+                                obj, "/com/pontoeletronico/FormVendedor.fxml", Utils.currentStage(event)));
             }
         });
     }
@@ -165,6 +164,7 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
         tableColumnDelete.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         tableColumnDelete.setCellFactory(param -> new TableCell<Vendedor, Vendedor>() {
             private final Button button = new Button("DELETAR");
+
             @Override
             protected void updateItem(Vendedor obj, boolean empty) {
                 super.updateItem(obj, empty);
@@ -173,29 +173,28 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
                     return;
                 }
                 setGraphic(button);
-                    button.setOnAction(event -> deleteEntity(obj));
+                button.setOnAction(event -> deleteEntity(obj));
             }
         });
     }
-    private void deleteEntity(Vendedor obj) {
-       Optional<ButtonType> result = Alerts.showConfirmation("Confirmação","Você quer mesmo Deletar?");
 
-       if (result.get() == ButtonType.OK) {
-           if (service == null){
-               throw new IllegalStateException("Service was null!");
-           }
-           try {
-               service.delete(obj);
-               updateTableView();
-           }catch (DbIntegrityException e){
-               Alerts.showAlert("Erro ao remover",null,e.getMessage(), Alert.AlertType.ERROR);
-           }
-       }
+    private void deleteEntity(Vendedor obj) {
+        Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Você quer mesmo Deletar?");
+
+        if (result.get() == ButtonType.OK) {
+            if (service == null) {
+                throw new IllegalStateException("Service was null!");
+            }
+            try {
+                service.delete(obj);
+                updateTableView();
+            } catch (DbIntegrityException e) {
+                Alerts.showAlert("Erro ao remover", null, e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
 
 
     }
-
-
 
 
 }

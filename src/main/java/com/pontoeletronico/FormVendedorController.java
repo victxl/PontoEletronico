@@ -19,6 +19,7 @@ import util.Constraints;
 import util.Utils;
 
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
@@ -106,9 +107,35 @@ public class FormVendedorController implements Initializable {
         obj.setNome(txtNome.getText());
 
         if (txtNome.getText() == null || txtNome.getText().trim().equals("")) {
-            exception.addErro("nome", "O campo não pode estar vazio");
+            exception.addErro("nome", "O campo Nome, não pode estar vazio");
         }
         obj.setNome(txtNome.getText());
+
+        if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
+            exception.addErro("email", "O campo  Email, não pode estar vazio");
+        }
+        obj.setEmail(txtEmail.getText());
+        if (dpDataNascimento.getValue() == null) {
+            exception.addErro("nascimento", "O campo Nascimento, não pode ser vazio");
+        } else {
+            Instant instant = Instant.from(dpDataNascimento.getValue().atStartOfDay(ZoneId.systemDefault()));
+            obj.setDataNascimento(Date.from(instant));
+        }
+
+        if (txtSalario.getText() == null || txtSalario.getText().trim().isEmpty()) {
+            exception.addErro("salario", "O compo Salario, não pode ficar vazio");
+        } else {
+            try {
+                double salario = Double.parseDouble(txtSalario.getText());
+                obj.setSalario(salario);
+            } catch (NumberFormatException e) {
+                exception.addErro("salario", "O campo Salário deve ser um número válido");
+            }
+        }
+
+        obj.setSalario(Utils.tryParseToDouble(txtSalario.getText()));
+
+        obj.setDepartamento(comboBoxDepartamento.getValue());
 
         if (exception.getErros().size() > 0) {
             throw exception;
@@ -143,9 +170,11 @@ public class FormVendedorController implements Initializable {
         txtID.setText(String.valueOf(entity.getId()));
         txtNome.setText(entity.getNome());
         txtEmail.setText(entity.getEmail());
-        Locale.setDefault(Locale.US);
+
         txtSalario.setText(String.format("%.2f", entity.getSalario()));
+        Locale.setDefault(Locale.US);
         if (entity.getDataNascimento() != null) {
+
             dpDataNascimento.setValue(LocalDate.ofInstant(entity.getDataNascimento().toInstant(), ZoneId.systemDefault()));
         }
         if (entity.getDepartamento() == null) {
@@ -166,9 +195,10 @@ public class FormVendedorController implements Initializable {
     private void setMensagemDeErro(Map<String, String> erros) {
         Set<String> fields = erros.keySet();
 
-        if (fields.contains("nome")) {
-            labelErroNome.setText(erros.get("nome"));
-        }
+        labelErroNome.setText((fields.contains("nome") ? erros.get("nome") : ""));
+        labelErroEmail.setText((fields.contains("email") ? erros.get("email") : ""));
+        labelErroSalario.setText((fields.contains("salario") ? erros.get("salario") : ""));
+        labelErroDataNascimento.setText((fields.contains("nascimento") ? erros.get("nascimento") : ""));
 
     }
 

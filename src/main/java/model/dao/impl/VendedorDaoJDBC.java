@@ -53,7 +53,7 @@ public class VendedorDaoJDBC implements VendedorDao {
                 DB.closeResultSet(rs);
             }
             else {
-                throw new DbException("Unexpected error! No rows affected!");
+                throw new DbException("Erro inesperado! Nenhuma linha afetada!");
             }
         }
         catch (SQLException e) {

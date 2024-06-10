@@ -23,13 +23,24 @@ public class Utils {
     public static Integer tryParseInteger(String text) {
         try {
             return Integer.parseInt(text);
-        }catch (NumberFormatException e) {
-        return null;}
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
+
+    public static Double tryParseToDouble(String text) {
+        try {
+            return Double.parseDouble(text);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
+
     public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumn, String format) {
         tableColumn.setCellFactory(column -> {
             TableCell<T, Date> cell = new TableCell<T, Date>() {
                 private SimpleDateFormat sdf = new SimpleDateFormat(format);
+
                 @Override
                 protected void updateItem(Date item, boolean empty) {
                     super.updateItem(item, empty);
@@ -54,7 +65,7 @@ public class Utils {
                         setText(null);
                     } else {
                         Locale.setDefault(Locale.US);
-                        setText(String.format("%."+decimalPlaces+"f", item));
+                        setText(String.format("%." + decimalPlaces + "f", item));
                     }
                 }
             };
@@ -66,9 +77,11 @@ public class Utils {
         datePicker.setConverter(new StringConverter<LocalDate>() {
 
             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format);
+
             {
                 datePicker.setPromptText(format.toLowerCase());
             }
+
             @Override
             public String toString(LocalDate date) {
                 if (date != null) {
@@ -77,6 +90,7 @@ public class Utils {
                     return "";
                 }
             }
+
             @Override
             public LocalDate fromString(String string) {
                 if (string != null && !string.isEmpty()) {
@@ -87,7 +101,6 @@ public class Utils {
             }
         });
     }
-
 
 
 }
