@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class ListaDeDepartamentoController implements Initializable , DataChageListener {
+public class ListaDeDepartamentoController implements Initializable, DataChageListener {
 
     private DepartamentoService service;
 
@@ -51,12 +51,11 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
     private ObservableList<Departamento> obsList;
 
 
-
     @FXML
     public void onBtnNovo(ActionEvent event) {
         Stage parentStage = Utils.currentStage(event);
         Departamento obj = new Departamento();
-        createDialogForm(obj,"/com/pontoeletronico/FormDepartamento.fxml",parentStage);
+        createDialogForm(obj, "/com/pontoeletronico/FormDepartamento.fxml", parentStage);
     }
 
 
@@ -65,26 +64,24 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
     }
 
 
-
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeNodes();
- }
-    private void initializeNodes(){
+    }
+
+    private void initializeNodes() {
 
         tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));;
-
-
+        tableColumnNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        ;
 
 
         Stage stage = (Stage) Main.getMainScene().getWindow();
         tableViewDepartamento.prefHeightProperty().bind(stage.heightProperty());
     }
 
-    public void updateTableView(){
-        if(service==null){
+    public void updateTableView() {
+        if (service == null) {
             throw new IllegalStateException("Service was null!");
         }
         List<Departamento> list = service.findAll();
@@ -95,7 +92,7 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
     }
 
 
-    private void createDialogForm(Departamento obj,String absoluteNome, Stage parentStage) {
+    private void createDialogForm(Departamento obj, String absoluteNome, Stage parentStage) {
         URL fxmlFile = getClass().getResource(absoluteNome);
 
         try {
@@ -131,6 +128,7 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
         tableColumnEdit.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         tableColumnEdit.setCellFactory(param -> new TableCell<Departamento, Departamento>() {
             private final Button btn = new Button("edit");
+
             @Override
             protected void updateItem(Departamento obj, boolean empty) {
                 super.updateItem(obj, empty);
@@ -141,7 +139,7 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
                 setGraphic(btn);
                 btn.setOnAction(
                         event -> createDialogForm(
-                                obj, "/com/pontoeletronico/FormDepartamento.fxml",Utils.currentStage(event)));
+                                obj, "/com/pontoeletronico/FormDepartamento.fxml", Utils.currentStage(event)));
             }
         });
     }
@@ -150,6 +148,7 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
         tableColumnDelete.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
         tableColumnDelete.setCellFactory(param -> new TableCell<Departamento, Departamento>() {
             private final Button button = new Button("DELETAR");
+
             @Override
             protected void updateItem(Departamento obj, boolean empty) {
                 super.updateItem(obj, empty);
@@ -158,29 +157,29 @@ public class ListaDeDepartamentoController implements Initializable , DataChageL
                     return;
                 }
                 setGraphic(button);
-                    button.setOnAction(event -> deleteEntity(obj));
+                button.setOnAction(event -> deleteEntity(obj));
             }
         });
     }
-    private void deleteEntity(Departamento obj) {
-       Optional<ButtonType> result = Alerts.showConfirmation("Confirmação","Você quer mesmo Deletar?");
 
-       if (result.get() == ButtonType.OK) {
-           if (service == null){
-               throw new IllegalStateException("Service was null!");
-           }
-           try {
-               service.delete(obj);
-               updateTableView();
-           }catch (DbIntegrityException e){
-               Alerts.showAlert("Erro ao remover",null,e.getMessage(), Alert.AlertType.ERROR);
-           }
-       }
+    private void deleteEntity(Departamento obj) {
+        Optional<ButtonType> result = Alerts.showConfirmation("Confirmação", "Você quer mesmo Deletar?");
+
+        if (result.get() == ButtonType.OK) {
+            if (service == null) {
+                throw new IllegalStateException("Service was null!");
+            }
+            try {
+                service.delete(obj);
+                updateTableView();
+            } catch (DbIntegrityException e) {
+                e.printStackTrace();
+                Alerts.showAlert("Erro ao remover", null, e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
 
 
     }
-
-
 
 
 }

@@ -16,6 +16,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import listeners.DataChageListener;
 import model.entities.Vendedor;
+import model.services.DepartamentoService;
 import model.services.VendedorService;
 import util.Alerts;
 import util.Utils;
@@ -117,7 +118,8 @@ public class ListaDeVendedorController implements Initializable , DataChageListe
 
             FormVendedorController controller = loader.getController();
             controller.setDEPARTAMENTO(obj);
-            controller.setVendedorService(new VendedorService());
+            controller.setServices(new VendedorService(), new DepartamentoService());
+            controller.loadAssociatedObjetcts();
             controller.subscribeDataChageListener(this);
             controller.updateFormData();
 
