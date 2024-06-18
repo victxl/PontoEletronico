@@ -41,6 +41,44 @@ public class FormFolhaDePontoController {
         this.funcionarioService = service;
     }
 
+//    @FXML
+//    public void onBtBuscarFuncionarioAction() {
+//        String funcionarioIdText = txtFuncionarioId.getText();
+//        if (funcionarioIdText.isEmpty()) {
+//            showAlert("Erro", "O campo Funcionario ID está vazio");
+//            return;
+//        }
+//
+//        Integer funcionarioId;
+//        try {
+//            funcionarioId = Integer.parseInt(funcionarioIdText);
+//        } catch (NumberFormatException e) {
+//            showAlert("Erro", "Erro ao converter Funcionario ID para número: " + funcionarioIdText);
+//            return;
+//        }
+//
+//        Funcionario funcionario = funcionarioService.findById(funcionarioId);
+//        if (funcionario == null) {
+//            showAlert("Erro", "Funcionário não encontrado: " + funcionarioIdText);
+//            return;
+//        }
+//
+//        txtNomeFuncionario.setText(funcionario.getNome());
+//
+//        ponto = folhaDePontoService.findPontoByFuncionarioIdAndData(funcionarioId, LocalDate.now());
+//        if (ponto == null) {
+//            ponto = new FolhaDePonto();
+//            ponto.setFuncionarioId(funcionarioId);
+//            ponto.setData(LocalDate.now());
+//            clickCount = 0;
+//        } else {
+//            clickCount = determineClickCount(ponto);
+//        }
+//
+//        updateFormFields();
+//        showAlert("Sucesso", "Funcionário encontrado: " + funcionarioId);
+//    }
+
     @FXML
     public void onBtBuscarFuncionarioAction() {
         String funcionarioIdText = txtFuncionarioId.getText();
@@ -65,52 +103,117 @@ public class FormFolhaDePontoController {
 
         txtNomeFuncionario.setText(funcionario.getNome());
 
-        ponto = folhaDePontoService.findPontoByFuncionarioId(funcionarioId);
+        ponto = folhaDePontoService.findPontoByFuncionarioIdAndData(funcionarioId, LocalDate.now());
         if (ponto == null) {
             ponto = new FolhaDePonto();
             ponto.setFuncionarioId(funcionarioId);
             ponto.setData(LocalDate.now());
+        } else {
+            txtHoraEntrada.setText(ponto.getHoraEntrada() != null ? ponto.getHoraEntrada().toString() : "");
+            txtIntervaloInicio.setText(ponto.getHoraEntradaIntervalo() != null ? ponto.getHoraEntradaIntervalo().toString() : "");
+            txtIntervaloFim.setText(ponto.getHoraSaidaIntervalo() != null ? ponto.getHoraSaidaIntervalo().toString() : "");
+            txtHoraSaida.setText(ponto.getHoraSaida() != null ? ponto.getHoraSaida().toString() : "");
         }
 
         showAlert("Sucesso", "Funcionário encontrado: " + funcionarioId);
     }
 
-    @FXML
-    public void onRegistrar() {
-        if (ponto == null) {
-            showAlert("Erro", "Nenhum funcionário selecionado. Por favor, busque o funcionário primeiro.");
-            return;
+
+    //    @FXML
+//    public void onRegistrar() {
+//        if (ponto == null) {
+//            showAlert("Erro", "Nenhum funcionário selecionado. Por favor, busque o funcionário primeiro.");
+//            return;
+//        }
+//
+//        LocalTime now = LocalTime.now();
+//
+//        switch (clickCount) {
+//            case 0:
+//                ponto.setHoraEntrada(now);
+//                txtHoraEntrada.setText(now.toString());
+//                showAlert("Sucesso", "Hora de entrada registrada: " + now);
+//                break;
+//            case 1:
+//                ponto.setHoraEntradaIntervalo(now);
+//                txtIntervaloInicio.setText(now.toString());
+//                showAlert("Sucesso", "Hora de entrada no intervalo registrada: " + now);
+//                break;
+//            case 2:
+//                ponto.setHoraSaidaIntervalo(now);
+//                txtIntervaloFim.setText(now.toString());
+//                showAlert("Sucesso", "Hora de saída do intervalo registrada: " + now);
+//                break;
+//            case 3:
+//                ponto.setHoraSaida(now);
+//                txtHoraSaida.setText(now.toString());
+//                showAlert("Sucesso", "Hora de saída registrada: " + now);
+//                break;
+//            default:
+//                showAlert("Erro", "Todas as horas já foram registradas para hoje.");
+//                return;
+//        }
+//
+//        folhaDePontoService.save(ponto);
+//        clickCount++;
+//    }
+@FXML
+public void onRegistrar() {
+    if (ponto == null) {
+        showAlert("Erro", "Nenhum funcionário selecionado. Por favor, busque o funcionário primeiro.");
+        return;
+    }
+
+    LocalTime now = LocalTime.now();
+
+    if (ponto.getHoraEntrada() == null) {
+        ponto.setHoraEntrada(now);
+        txtHoraEntrada.setText(now.toString());
+        showAlert("Sucesso", "Hora de entrada registrada: " + now);
+    } else if (ponto.getHoraEntradaIntervalo() == null) {
+        ponto.setHoraEntradaIntervalo(now);
+        txtIntervaloInicio.setText(now.toString());
+        showAlert("Sucesso", "Hora de entrada no intervalo registrada: " + now);
+    } else if (ponto.getHoraSaidaIntervalo() == null) {
+        ponto.setHoraSaidaIntervalo(now);
+        txtIntervaloFim.setText(now.toString());
+        showAlert("Sucesso", "Hora de saída do intervalo registrada: " + now);
+    } else if (ponto.getHoraSaida() == null) {
+        ponto.setHoraSaida(now);
+        txtHoraSaida.setText(now.toString());
+        showAlert("Sucesso", "Hora de saída registrada: " + now);
+    } else {
+        showAlert("Erro", "Todas as horas já foram registradas para hoje.");
+        return;
+    }
+
+    folhaDePontoService.save(ponto);
+}
+
+
+
+    private int determineClickCount(FolhaDePonto ponto) {
+        if (ponto.getHoraEntrada() == null) {
+            return 0;
+        } else if (ponto.getHoraEntradaIntervalo() == null) {
+            return 1;
+        } else if (ponto.getHoraSaidaIntervalo() == null) {
+            return 2;
+        } else if (ponto.getHoraSaida() == null) {
+            return 3;
+        } else {
+            return 4;
         }
+    }
 
-        LocalTime now = LocalTime.now();
-
-        switch (clickCount) {
-            case 0:
-                ponto.setHoraEntrada(now);
-                txtHoraEntrada.setText(now.toString());
-                showAlert("Sucesso", "Hora de entrada registrada: " + now);
-                break;
-            case 1:
-                ponto.setHoraEntradaIntervalo(now);
-                txtIntervaloInicio.setText(now.toString());
-                showAlert("Sucesso", "Hora de entrada no intervalo registrada: " + now);
-                break;
-            case 2:
-                ponto.setHoraSaidaIntervalo(now);
-                txtIntervaloFim.setText(now.toString());
-                showAlert("Sucesso", "Hora de saída do intervalo registrada: " + now);
-                break;
-            case 3:
-                ponto.setHoraSaida(now);
-                txtHoraSaida.setText(now.toString());
-                folhaDePontoService.save(ponto);
-                ponto = null;
-                clickCount = -1;
-                showAlert("Sucesso", "Hora de saída registrada: " + now);
-                break;
+    private void updateFormFields() {
+        if (ponto != null) {
+            txtData.setText(ponto.getData().toString());
+            txtHoraEntrada.setText(ponto.getHoraEntrada() != null ? ponto.getHoraEntrada().toString() : "");
+            txtIntervaloInicio.setText(ponto.getHoraEntradaIntervalo() != null ? ponto.getHoraEntradaIntervalo().toString() : "");
+            txtIntervaloFim.setText(ponto.getHoraSaidaIntervalo() != null ? ponto.getHoraSaidaIntervalo().toString() : "");
+            txtHoraSaida.setText(ponto.getHoraSaida() != null ? ponto.getHoraSaida().toString() : "");
         }
-
-        clickCount++;
     }
 
     private void showAlert(String title, String message) {

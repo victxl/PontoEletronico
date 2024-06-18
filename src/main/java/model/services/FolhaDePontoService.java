@@ -4,6 +4,7 @@ import model.dao.DaoFactory;
 import model.dao.FolhaDePontoDao;
 import model.entities.FolhaDePonto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class FolhaDePontoService {
@@ -14,13 +15,18 @@ public class FolhaDePontoService {
         return dao.findByFuncionarioId(funcionarioId);
     }
 
-    public void save(FolhaDePonto folhaDePonto) {
-        if (folhaDePonto.getId() == 0) {
-            dao.insert(folhaDePonto);
+    public FolhaDePonto findPontoByFuncionarioIdAndData(Integer funcionarioId, LocalDate date) {
+        return dao.findByFuncionarioIdAndData(funcionarioId, date);
+    }
+
+    public void save(FolhaDePonto obj) {
+        if (obj.getId() == null) {
+            dao.insert(obj);
         } else {
-            dao.update(folhaDePonto);
+            dao.update(obj);
         }
     }
+
 
     public List<FolhaDePonto> findAll() {
         return dao.findAll();
