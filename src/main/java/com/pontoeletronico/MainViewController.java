@@ -1,80 +1,112 @@
 package com.pontoeletronico;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import model.services.DepartamentoService;
-import model.services.VendedorService;
-import util.Alerts;
+import model.services.FolhaDePontoService;
+import model.services.FuncionarioService;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
-public class MainViewController implements Initializable {
+public class MainViewController {
 
-        @FXML
-        private MenuItem menuItemVendedor;
-        @FXML
-        private MenuItem menuItemDepartamento;
-        @FXML
-        private MenuItem menuItemSobre;
+    @FXML
+    private VBox mainPane;
 
-        @FXML
-        public void onMenuItemVendedor(ActionEvent event) {
-            loadView("/com/pontoeletronico/ListaDeVendedor.fxml",(ListaDeVendedorController controller)->{
-                controller.setVendedorService(new VendedorService());
-                controller.updateTableView();
-            });
-        }
-
-        @FXML
-        public void onMenuItemDepartamento(ActionEvent event) {
-            loadView("/com/pontoeletronico/ListaDepartamento.fxml",(ListaDeDepartamentoController controller)->{
-                controller.setDepartamentoService(new DepartamentoService());
-                controller.updateTableView();
-            });
-        }
-
-        @FXML
-        public void onMenuItemSobre(ActionEvent event) {
-           loadView("/com/pontoeletronico/SobreView.fxml", x -> {});
-        }
+//    @FXML
+//    private void onMenuItemFormFolhaDePonto() {
+//        loadView("/com/pontoeletronico/FormFolhaDePonto.fxml", controller -> {
+//            FormFolhaDePontoController folhaController = (FormFolhaDePontoController) controller;
+//            folhaController.setFolhaDePontoService(new FolhaDePontoService());
+//            folhaController.setFuncionarioService(new FuncionarioService());
+//        });
+//    }
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    @FXML
+    private void onMenuItemFormFolhaDePonto() {
+        loadView("/com/pontoeletronico/FormFolhaDePonto.fxml", (FormFolhaDePontoController controller) -> {
+            controller.setFolhaDePontoService(new FolhaDePontoService());
+            controller.setFuncionarioService(new FuncionarioService());
+        });
     }
 
-    private synchronized <T> void  loadView(String absoluteNome, Consumer<T> inicializarAction) {
 
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteNome));
-            VBox newVBox = loader.load();
 
-            Scene mainScene = Main.getMainScene();
-            VBox mainVbox = (VBox) ((ScrollPane)mainScene.getRoot()).getContent();
-
-            Node mainMenu = mainVbox.getChildren().get(0);
-            mainVbox.getChildren().clear();
-            mainVbox.getChildren().add(mainMenu);
-            mainVbox.getChildren().addAll(newVBox.getChildren());
-
-            T controller = loader.getController();
-            inicializarAction.accept(controller);
-
-        } catch (IOException e) {
-            Alerts.showAlert("IO Exception","ERRO carregando view",e.getMessage(), Alert.AlertType.ERROR);
-        }
+    @FXML
+    private void onMenuItemFolhaDePonto() {
+        loadView("/com/pontoeletronico/FolhaDePonto.fxml", controller -> {
+            FolhaDePontoController folhaController = (FolhaDePontoController) controller;
+            folhaController.setFolhaDePontoService(new FolhaDePontoService());
+            folhaController.setFuncionarioService(new FuncionarioService());
+        });
     }
 
+    @FXML
+    private void onMenuItemFuncionarioAction() {
+        loadView("/com/pontoeletronico/ListaDeFuncionario.fxml", controller -> {
+            ListaDeFuncionarioController funcionarioController = (ListaDeFuncionarioController) controller;
+            funcionarioController.setFuncionarioService(new FuncionarioService());
+            funcionarioController.updateTableView();
+        });
+    }
+
+    @FXML
+    private void onMenuItemDepartamentoAction() {
+        loadView("/com/pontoeletronico/ListaDeDepartamento.fxml", controller -> {
+            ListaDeDepartamentoController departamentoController = (ListaDeDepartamentoController) controller;
+            departamentoController.setDepartamentoService(new DepartamentoService());
+            departamentoController.updateTableView();
+        });
+    }
+
+    @FXML
+    private void onMenuItemSobreAction() {
+        loadView("/com/pontoeletronico/SobreView.fxml", null);
+    }
+
+//    private void loadView(String fxml, ControllerInitializer initializer) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+//            Pane newLoadedPane = loader.load();
+//
+//            if (initializer != null) {
+//                initializer.initialize(loader.getController());
+//            }
+//
+//            mainPane.getChildren().clear();
+//            mainPane.getChildren().add(newLoadedPane);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+private <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+        Stage stage = new Stage();
+        stage.setScene(new Scene(loader.load()));
+        T controller = loader.getController();
+        if (initializingAction != null) {
+            initializingAction.accept(controller);
+        }
+        stage.show();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+
+
+
+
+
+
+    @FunctionalInterface
+    private interface ControllerInitializer {
+        void initialize(Object controller);
+    }
 }

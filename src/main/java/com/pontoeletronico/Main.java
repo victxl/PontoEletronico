@@ -3,7 +3,7 @@ package com.pontoeletronico;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,15 +15,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("MainView.fxml"));
-            ScrollPane scrollPane = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pontoeletronico/Login.fxml"));
+            VBox vbox = loader.load();
 
-            scrollPane.setFitToWidth(true);
-            scrollPane.setFitToHeight(true);
-
-            mainScene = new Scene(scrollPane);
+            mainScene = new Scene(vbox);
             primaryStage.setScene(mainScene);
-            primaryStage.setTitle("Ponto Eletronico");
+            primaryStage.setTitle("Ponto Eletrônico - Login");
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,7 +31,17 @@ public class Main extends Application {
         return mainScene;
     }
 
+    public static void loadMainView(String fxml) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));
+            VBox vbox = loader.load();
+            mainScene.setRoot(vbox);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

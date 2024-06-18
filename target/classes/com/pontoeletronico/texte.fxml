@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" >
+    <children>
+        <Label text="Registro de Folha de Ponto">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+            <padding>
+                <Insets left="5.0" top="5.0" />
+            </padding>
+        </Label>
+        <VBox spacing="10" padding="10,10,10,10">
+            <children>
+                <TextField fx:id="txtCpf" promptText="CPF"/>
+                <Button text="Registrar" />
+            </children>
+        </VBox>
+        <TableView fx:id="tableViewFolhaDePonto">
+            <columns>
+                <TableColumn fx:id="tableColumnData" text="Data"/>
+                <TableColumn fx:id="tableColumnHoraEntrada" text="Hora de Entrada"/>
+                <TableColumn fx:id="tableColumnHoraSaidaIntervalo" text="Hora de Saída para Intervalo"/>
+                <TableColumn fx:id="tableColumnHoraEntradaIntervalo" text="Hora de Entrada após Intervalo"/>
+                <TableColumn fx:id="tableColumnHoraSaida" text="Hora de Saída"/>
+            </columns>
+        </TableView>
+    </children>
+</VBox>

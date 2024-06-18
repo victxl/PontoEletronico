@@ -1,29 +1,29 @@
 package model.services;
 
+import java.util.List;
 import model.dao.DaoFactory;
 import model.dao.DepartamentoDao;
 import model.entities.Departamento;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DepartamentoService {
 
     private DepartamentoDao dao = DaoFactory.createDepartamentoDao();
 
     public List<Departamento> findAll() {
-       return dao.findAll();
+        return dao.findAll();
     }
 
-    public void saveOrUpdate(Departamento departamento) {
-        if (departamento.getId() == null) {
-            dao.insert(departamento);
-        }
-        else {
-            dao.update(departamento);
+    public void saveOrUpdate(Departamento obj) {
+        if (obj.getId() == null) {
+            dao.insert(obj);
+        } else {
+            dao.update(obj);
         }
     }
-    public void delete(Departamento departamento) {
-        dao.delete(departamento.getId());
+
+    public void remove(Departamento obj) {
+        dao.deleteById(obj.getId());
     }
+
+
 }

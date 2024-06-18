@@ -1,0 +1,10 @@
+.root {
+    -fx-background-color: #000000;
+}
+.btncolor {
+    -fx-background-radius: 20px;
+    -fx-border-radius: 20px;
+    -fx-cursor: hand;
+    -fx-padding: 5px 15px 5px 15px;
+    -fx-background-color:  #5cb85c;
+}

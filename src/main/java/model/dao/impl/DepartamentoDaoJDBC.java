@@ -2,15 +2,17 @@ package model.dao.impl;
 
 import db.DB;
 import db.DbException;
-import db.DbIntegrityException;
 import model.dao.DepartamentoDao;
 import model.entities.Departamento;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DepartamentoDaoJDBC implements DepartamentoDao {
+
     private Connection conn;
 
     public DepartamentoDaoJDBC(Connection conn) {
@@ -22,7 +24,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
-                    "insert into departamento (nome) values (?)",
+                    "INSERT INTO departamento (Nome) VALUES (?)",
                     Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, obj.getNome());
@@ -35,15 +37,15 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
                     int id = rs.getInt(1);
                     obj.setId(id);
                 }
+                DB.closeResultSet(rs);
             } else {
-                throw new DbException("Erro ao inserir o departamento");
+                throw new DbException("Erro inesperado! Nenhuma linha afetada!");
             }
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         } finally {
             DB.closeStatement(st);
         }
-
     }
 
     @Override
@@ -51,7 +53,7 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
-                    "UPDATE  departamento set Nome = ? WHERE id = ?");
+                    "UPDATE departamento SET Nome = ? WHERE Id = ?");
 
             st.setString(1, obj.getNome());
             st.setInt(2, obj.getId());
@@ -62,45 +64,39 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
         } finally {
             DB.closeStatement(st);
         }
-
-
     }
 
     @Override
-    public void delete(int id) {
+    public void deleteById(Integer id) {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement(
-                    "DELETE FROM departamento WHERE id = ?");
+            st = conn.prepareStatement("DELETE FROM departamento WHERE Id = ?");
+
             st.setInt(1, id);
+
             st.executeUpdate();
         } catch (SQLException e) {
-            throw new DbIntegrityException(e.getMessage());
-        }
-        finally {
+            throw new DbException(e.getMessage());
+        } finally {
             DB.closeStatement(st);
         }
-
-
     }
 
     @Override
-    public Departamento findById(int id) {
+    public Departamento findById(Integer id) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
             st = conn.prepareStatement(
-                    "SELECT * FROM pontoeletronico.departamento WHERE id = ? ");
+                    "SELECT * FROM departamento WHERE Id = ?");
+
             st.setInt(1, id);
-
             rs = st.executeQuery();
-
             if (rs.next()) {
-                Departamento dep = instanciarDepartamento(rs);
-                return dep;
-            } else {
-                return null; // Não encontrou nenhum departamento com o ID fornecido
+                Departamento obj = instantiateDepartamento(rs);
+                return obj;
             }
+            return null;
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         } finally {
@@ -109,13 +105,12 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
         }
     }
 
-    private Departamento instanciarDepartamento(ResultSet rs) throws SQLException {
-        Departamento dep = new Departamento();
-        dep.setId(rs.getInt("id"));
-        dep.setNome(rs.getString("nome"));
-        return dep;
+    private Departamento instantiateDepartamento(ResultSet rs) throws SQLException {
+        Departamento obj = new Departamento();
+        obj.setId(rs.getInt("Id"));
+        obj.setNome(rs.getString("Nome"));
+        return obj;
     }
-
 
     @Override
     public List<Departamento> findAll() {
@@ -123,16 +118,17 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
         ResultSet rs = null;
         try {
             st = conn.prepareStatement(
-                    "SELECT * FROM pontoeletronico.departamento ORDER BY id ASC ");
+                    "SELECT * FROM departamento ORDER BY Nome");
 
             rs = st.executeQuery();
 
-            List<Departamento> departamentos = new ArrayList<>();
+            List<Departamento> list = new ArrayList<>();
+
             while (rs.next()) {
-                Departamento dep = instanciarDepartamento(rs);
-                departamentos.add(dep);
+                Departamento obj = instantiateDepartamento(rs);
+                list.add(obj);
             }
-            return departamentos;
+            return list;
         } catch (SQLException e) {
             throw new DbException(e.getMessage());
         } finally {
@@ -140,7 +136,4 @@ public class DepartamentoDaoJDBC implements DepartamentoDao {
             DB.closeResultSet(rs);
         }
     }
-
-
 }
-

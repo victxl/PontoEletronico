@@ -1,46 +1,44 @@
 package model.dao.impl;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import java.sql.*;
 import db.DB;
 import db.DbException;
-import model.dao.VendedorDao;
+import model.dao.FuncionarioDao;
 import model.entities.Departamento;
-import model.entities.Vendedor;
+import model.entities.Funcionario;
 
-public class VendedorDaoJDBC implements VendedorDao {
+public class FuncionarioDaoJDBC implements FuncionarioDao {
 
     private Connection conn;
 
-    public VendedorDaoJDBC(Connection conn) {
+    public FuncionarioDaoJDBC(Connection conn) {
         this.conn = conn;
     }
 
     @Override
-    public void insert(Vendedor obj) {
+    public void insert(Funcionario obj) {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
-                    "INSERT INTO vendedor "
-                            + "(Nome, Email, DataNascimento, SalarioBase, IdDepartamento) "
+                    "INSERT INTO funcionario "
+                            + "(Nome, Email, DataNascimento, Cpf, HorarioExpediente, IdDepartamento) "
                             + "VALUES "
-                            + "(?, ?, ?, ?, ?)",
+                            + "(?, ?, ?, ?, ?, ?)",
                     Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
-            st.setDate(3, new java.sql.Date(obj.getDataNascimento().getTime()));
-            st.setDouble(4, obj.getSalario());
-            st.setInt(5, obj.getDepartamento().getId());
+            st.setDate(3, Date.valueOf(obj.getDataNascimento()));
+            st.setString(4, obj.getCpf());
+            st.setTime(5, Time.valueOf(obj.getHorarioExpediente()));
+            st.setInt(6, obj.getDepartamento().getId());
 
             int rowsAffected = st.executeUpdate();
 
@@ -51,99 +49,92 @@ public class VendedorDaoJDBC implements VendedorDao {
                     obj.setId(id);
                 }
                 DB.closeResultSet(rs);
-            }
-            else {
+            } else {
                 throw new DbException("Erro inesperado! Nenhuma linha afetada!");
             }
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        }
-        finally {
+        } finally {
             DB.closeStatement(st);
         }
     }
 
     @Override
-    public void update(Vendedor obj) {
+    public void update(Funcionario obj) {
         PreparedStatement st = null;
         try {
             st = conn.prepareStatement(
-                    "UPDATE vendedor "
-                            + "SET Nome = ?, Email = ?, DataNascimento = ?, SalarioBase = ?, IdDepartamento = ? "
+                    "UPDATE funcionario "
+                            + "SET Nome = ?, Email = ?, DataNascimento = ?, Cpf = ?, HorarioExpediente = ?, IdDepartamento = ? "
                             + "WHERE Id = ?");
 
             st.setString(1, obj.getNome());
             st.setString(2, obj.getEmail());
-            st.setDate(3, new java.sql.Date(obj.getDataNascimento().getTime()));
-            st.setDouble(4, obj.getSalario());
-            st.setInt(5, obj.getDepartamento().getId());
-            st.setInt(6, obj.getId());
+            st.setDate(3, Date.valueOf(obj.getDataNascimento()));
+            st.setString(4, obj.getCpf());
+            st.setTime(5, Time.valueOf(obj.getHorarioExpediente()));
+            st.setInt(6, obj.getDepartamento().getId());
+            st.setInt(7, obj.getId());
 
             st.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        }
-        finally {
+        } finally {
             DB.closeStatement(st);
         }
     }
 
     @Override
-    public void     delete (Integer id) {
+    public void delete(Integer id) {
         PreparedStatement st = null;
         try {
-            st = conn.prepareStatement("DELETE FROM vendedor WHERE Id = ?");
+            st = conn.prepareStatement("DELETE FROM funcionario WHERE Id = ?");
 
             st.setInt(1, id);
 
             st.executeUpdate();
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        }
-        finally {
+        } finally {
             DB.closeStatement(st);
         }
     }
 
     @Override
-    public Vendedor findById(Integer id) {
+    public Funcionario findById(Integer id) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
             st = conn.prepareStatement(
-                    "SELECT vendedor.*,departamento.Nome as DepNome "
-                            + "FROM vendedor INNER JOIN departamento "
-                            + "ON vendedor.IdDepartamento = departamento.Id "
-                            + "WHERE vendedor.Id = ?");
+                    "SELECT funcionario.*, departamento.Nome as DepNome "
+                            + "FROM funcionario INNER JOIN departamento "
+                            + "ON funcionario.IdDepartamento = departamento.Id "
+                            + "WHERE funcionario.Id = ?");
 
             st.setInt(1, id);
             rs = st.executeQuery();
             if (rs.next()) {
                 Departamento dep = instantiateDepartamento(rs);
-                Vendedor obj = instantiateVendedor(rs, dep);
+                Funcionario obj = instantiateFuncionario(rs, dep);
                 return obj;
             }
             return null;
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        }
-        finally {
+        } finally {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }
     }
 
-    private Vendedor instantiateVendedor(ResultSet rs, Departamento dep) throws SQLException {
-        Vendedor obj = new Vendedor();
+    private Funcionario instantiateFuncionario(ResultSet rs, Departamento dep) throws SQLException {
+        Funcionario obj = new Funcionario();
         obj.setId(rs.getInt("Id"));
         obj.setNome(rs.getString("Nome"));
         obj.setEmail(rs.getString("Email"));
-        obj.setSalario(rs.getDouble("SalarioBase"));
-        obj.setDataNascimento(new java.util.Date(rs.getTimestamp("DataNascimento").getTime()));
+        obj.setCpf(rs.getString("Cpf"));
+        obj.setHorarioExpediente(rs.getTime("HorarioExpediente").toLocalTime());
+        obj.setDataNascimento(rs.getDate("DataNascimento").toLocalDate());
         obj.setDepartamento(dep);
         return obj;
     }
@@ -156,23 +147,22 @@ public class VendedorDaoJDBC implements VendedorDao {
     }
 
     @Override
-    public List<Vendedor> findAll() {
+    public List<Funcionario> findAll() {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
             st = conn.prepareStatement(
-                    "SELECT vendedor.*,departamento.Nome as DepNome "
-                            + "FROM vendedor INNER JOIN departamento "
-                            + "ON vendedor.IdDepartamento = departamento.Id "
+                    "SELECT funcionario.*, departamento.Nome as DepNome "
+                            + "FROM funcionario INNER JOIN departamento "
+                            + "ON funcionario.IdDepartamento = departamento.Id "
                             + "ORDER BY Nome");
 
             rs = st.executeQuery();
 
-            List<Vendedor> list = new ArrayList<>();
+            List<Funcionario> list = new ArrayList<>();
             Map<Integer, Departamento> map = new HashMap<>();
 
             while (rs.next()) {
-
                 Departamento dep = map.get(rs.getInt("IdDepartamento"));
 
                 if (dep == null) {
@@ -180,41 +170,38 @@ public class VendedorDaoJDBC implements VendedorDao {
                     map.put(rs.getInt("IdDepartamento"), dep);
                 }
 
-                Vendedor obj = instantiateVendedor(rs, dep);
+                Funcionario obj = instantiateFuncionario(rs, dep);
                 list.add(obj);
             }
             return list;
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        }
-        finally {
+        } finally {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }
     }
 
     @Override
-    public List<Vendedor> findByDepartamento(Departamento departamentoo) {
+    public List<Funcionario> findByDepartamento(Departamento departamento) {
         PreparedStatement st = null;
         ResultSet rs = null;
         try {
             st = conn.prepareStatement(
-                    "SELECT vendedor.*,departamento.Nome as DepNome "
-                            + "FROM vendedor INNER JOIN departamento "
-                            + "ON vendedor.IdDepartamento = departamento.Id "
+                    "SELECT funcionario.*, departamento.Nome as DepNome "
+                            + "FROM funcionario INNER JOIN departamento "
+                            + "ON funcionario.IdDepartamento = departamento.Id "
                             + "WHERE IdDepartamento = ? "
                             + "ORDER BY Nome");
 
-            st.setInt(1, departamentoo.getId());
+            st.setInt(1, departamento.getId());
 
             rs = st.executeQuery();
 
-            List<Vendedor> list = new ArrayList<>();
+            List<Funcionario> list = new ArrayList<>();
             Map<Integer, Departamento> map = new HashMap<>();
 
             while (rs.next()) {
-
                 Departamento dep = map.get(rs.getInt("IdDepartamento"));
 
                 if (dep == null) {
@@ -222,15 +209,13 @@ public class VendedorDaoJDBC implements VendedorDao {
                     map.put(rs.getInt("IdDepartamento"), dep);
                 }
 
-                Vendedor obj = instantiateVendedor(rs, dep);
+                Funcionario obj = instantiateFuncionario(rs, dep);
                 list.add(obj);
             }
             return list;
-        }
-        catch (SQLException e) {
+        } catch (SQLException e) {
             throw new DbException(e.getMessage());
-        }
-        finally {
+        } finally {
             DB.closeStatement(st);
             DB.closeResultSet(rs);
         }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.InnerShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="620.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.LoginController">
+   <left>
+      <AnchorPane prefHeight="400.0" prefWidth="249.0" style="-fx-background-color: #191970;" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="25.0" layoutY="111.0" text="PontoEletronico" textFill="WHITE">
+               <font>
+                  <Font name="Verdana Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="31.0" layoutY="369.0" text="Copyright 2024 All Rights Reserved" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="400.0" prefWidth="390.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="128.0" layoutY="54.0" text="Login " textFill="#7c7c7c">
+               <font>
+                  <Font name="Verdana Bold" size="22.0" />
+               </font>
+               <effect>
+                  <InnerShadow radius="4.75" width="0.0" />
+               </effect>
+            </Label>
+            <Label layoutX="43.0" layoutY="124.0" text="Nome de Usuário">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="43.0" layoutY="173.0" text="Senha">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <TextField fx:id="nomeField" layoutX="180.0" layoutY="125.0" />
+            <PasswordField fx:id="senhaField" layoutX="180.0" layoutY="174.0" />
+            <Button fx:id="loginButton" layoutX="150.0" layoutY="225.0" mnemonicParsing="false" onAction="#setLoginButton" prefHeight="30.0" prefWidth="147.0" style="-fx-background-color: #191970;" text="Login" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="11.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </right>
+</BorderPane>
