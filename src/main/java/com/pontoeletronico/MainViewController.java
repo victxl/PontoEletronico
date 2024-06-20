@@ -2,10 +2,8 @@ package com.pontoeletronico;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import model.services.DepartamentoService;
 import model.services.FolhaDePontoService;
 import model.services.FuncionarioService;
@@ -18,16 +16,6 @@ public class MainViewController {
     @FXML
     private VBox mainPane;
 
-//    @FXML
-//    private void onMenuItemFormFolhaDePonto() {
-//        loadView("/com/pontoeletronico/FormFolhaDePonto.fxml", controller -> {
-//            FormFolhaDePontoController folhaController = (FormFolhaDePontoController) controller;
-//            folhaController.setFolhaDePontoService(new FolhaDePontoService());
-//            folhaController.setFuncionarioService(new FuncionarioService());
-//        });
-//    }
-
-
     @FXML
     private void onMenuItemFormFolhaDePonto() {
         loadView("/com/pontoeletronico/FormFolhaDePonto.fxml", (FormFolhaDePontoController controller) -> {
@@ -36,14 +24,12 @@ public class MainViewController {
         });
     }
 
-
-
     @FXML
     private void onMenuItemFolhaDePonto() {
-        loadView("/com/pontoeletronico/FolhaDePonto.fxml", controller -> {
-            FolhaDePontoController folhaController = (FolhaDePontoController) controller;
-            folhaController.setFolhaDePontoService(new FolhaDePontoService());
-            folhaController.setFuncionarioService(new FuncionarioService());
+        loadView("/com/pontoeletronico/ListaDeFolhaDePonto.fxml", (ListaDeFolhaDePontoController controller) -> {
+            controller.setFolhaDePontoService(new FolhaDePontoService());
+            controller.setFuncionarioService(new FuncionarioService());
+            controller.updateTableView();
         });
     }
 
@@ -70,43 +56,20 @@ public class MainViewController {
         loadView("/com/pontoeletronico/SobreView.fxml", null);
     }
 
-//    private void loadView(String fxml, ControllerInitializer initializer) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-//            Pane newLoadedPane = loader.load();
-//
-//            if (initializer != null) {
-//                initializer.initialize(loader.getController());
-//            }
-//
-//            mainPane.getChildren().clear();
-//            mainPane.getChildren().add(newLoadedPane);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-private <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-        Stage stage = new Stage();
-        stage.setScene(new Scene(loader.load()));
-        T controller = loader.getController();
-        if (initializingAction != null) {
-            initializingAction.accept(controller);
+    private <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+            Pane newPane = loader.load();
+            mainPane.getChildren().clear();
+            mainPane.getChildren().add(newPane);
+            VBox.setVgrow(newPane, javafx.scene.layout.Priority.ALWAYS);
+
+            T controller = loader.getController();
+            if (initializingAction != null) {
+                initializingAction.accept(controller);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-
-
-
-
-
-
-    @FunctionalInterface
-    private interface ControllerInitializer {
-        void initialize(Object controller);
     }
 }

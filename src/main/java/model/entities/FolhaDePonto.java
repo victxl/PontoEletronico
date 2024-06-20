@@ -2,10 +2,9 @@ package model.entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 
 public class FolhaDePonto {
+
     private Integer id;
     private Integer funcionarioId;
     private LocalDate data;
@@ -13,15 +12,9 @@ public class FolhaDePonto {
     private LocalTime horaSaida;
     private LocalTime horaEntradaIntervalo;
     private LocalTime horaSaidaIntervalo;
+    private String funcionarioNome;
 
-    // Propriedades para JavaFX
-    private final ObjectProperty<LocalDate> dataProperty = new SimpleObjectProperty<>();
-    private final ObjectProperty<LocalTime> horaEntradaProperty = new SimpleObjectProperty<>();
-    private final ObjectProperty<LocalTime> horaSaidaProperty = new SimpleObjectProperty<>();
-    private final ObjectProperty<LocalTime> horaEntradaIntervaloProperty = new SimpleObjectProperty<>();
-    private final ObjectProperty<LocalTime> horaSaidaIntervaloProperty = new SimpleObjectProperty<>();
-
-    // Getters e setters
+    // Getters and Setters
     public Integer getId() {
         return id;
     }
@@ -44,7 +37,6 @@ public class FolhaDePonto {
 
     public void setData(LocalDate data) {
         this.data = data;
-        this.dataProperty.set(data);
     }
 
     public LocalTime getHoraEntrada() {
@@ -53,7 +45,6 @@ public class FolhaDePonto {
 
     public void setHoraEntrada(LocalTime horaEntrada) {
         this.horaEntrada = horaEntrada;
-        this.horaEntradaProperty.set(horaEntrada);
     }
 
     public LocalTime getHoraSaida() {
@@ -62,7 +53,6 @@ public class FolhaDePonto {
 
     public void setHoraSaida(LocalTime horaSaida) {
         this.horaSaida = horaSaida;
-        this.horaSaidaProperty.set(horaSaida);
     }
 
     public LocalTime getHoraEntradaIntervalo() {
@@ -71,7 +61,6 @@ public class FolhaDePonto {
 
     public void setHoraEntradaIntervalo(LocalTime horaEntradaIntervalo) {
         this.horaEntradaIntervalo = horaEntradaIntervalo;
-        this.horaEntradaIntervaloProperty.set(horaEntradaIntervalo);
     }
 
     public LocalTime getHoraSaidaIntervalo() {
@@ -80,27 +69,13 @@ public class FolhaDePonto {
 
     public void setHoraSaidaIntervalo(LocalTime horaSaidaIntervalo) {
         this.horaSaidaIntervalo = horaSaidaIntervalo;
-        this.horaSaidaIntervaloProperty.set(horaSaidaIntervalo);
     }
 
-    // Métodos de propriedade para JavaFX
-    public ObjectProperty<LocalDate> dataProperty() {
-        return dataProperty;
+    public String getFuncionarioNome() {
+        return funcionarioNome;
     }
 
-    public ObjectProperty<LocalTime> horaEntradaProperty() {
-        return horaEntradaProperty;
-    }
-
-    public ObjectProperty<LocalTime> horaSaidaProperty() {
-        return horaSaidaProperty;
-    }
-
-    public ObjectProperty<LocalTime> horaEntradaIntervaloProperty() {
-        return horaEntradaIntervaloProperty;
-    }
-
-    public ObjectProperty<LocalTime> horaSaidaIntervaloProperty() {
-        return horaSaidaIntervaloProperty;
+    public void setFuncionarioNome(String funcionarioNome) {
+        this.funcionarioNome = funcionarioNome;
     }
 }

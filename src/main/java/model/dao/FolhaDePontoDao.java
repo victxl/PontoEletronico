@@ -11,6 +11,8 @@ public interface FolhaDePontoDao {
     void deleteById(Integer id);
     FolhaDePonto findById(Integer id);
     List<FolhaDePonto> findAll();
-    FolhaDePonto findByFuncionarioId(Integer funcionarioId);
+
+   // FolhaDePonto findByFuncionarioId(Integer funcionarioId);
     FolhaDePonto findByFuncionarioIdAndData(Integer funcionarioId, LocalDate date);
+    List<FolhaDePonto> findByFuncionarioId(Integer funcionarioId);
 }
