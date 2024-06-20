@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
+
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.ListaDeFolhaDePontoController">
     <Label text="Registro de Folhas de Ponto">
         <font>
@@ -16,6 +17,7 @@
     <HBox spacing="10">
         <TextField fx:id="txtBuscarFuncionario" promptText="ID do Funcionário"/>
         <Button fx:id="btnBuscar" text="Buscar" onAction="#onBtnBuscar"/>
+        <Button fx:id="btnExportar" text="Exportar" onAction="#onBtnExportar"/>
     </HBox>
     <TableView fx:id="tableViewFolhaDePonto" prefHeight="200.0" prefWidth="200.0">
         <columns>
@@ -23,10 +25,9 @@
             <TableColumn fx:id="tableColumnNome" text="Nome"/>
             <TableColumn fx:id="tableColumnData" text="Data"/>
             <TableColumn fx:id="tableColumnHoraEntrada" text="Hora Entrada"/>
+            <TableColumn fx:id="tableColumnHoraSaida" text="Hora Saída"/>
             <TableColumn fx:id="tableColumnIntervaloInicio" text="Início Intervalo"/>
             <TableColumn fx:id="tableColumnIntervaloFim" text="Fim Intervalo"/>
-            <TableColumn fx:id="tableColumnHoraSaida" text="Hora Saída"/>
-<!--            <TableColumn fx:id="tableColumnEDIT" text="EDIT"/>-->
         </columns>
     </TableView>
 </VBox>
