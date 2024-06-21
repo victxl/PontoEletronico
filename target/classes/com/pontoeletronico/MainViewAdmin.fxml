@@ -7,9 +7,9 @@
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.pontoeletronico.MainViewController">
     <children>
-        <MenuBar fx:id="menuBar">
+        <MenuBar>
             <menus>
-                <Menu fx:id="menuCadastro" text="Cadastro">
+                <Menu text="Cadastro">
                     <items>
                         <MenuItem fx:id="menuItemRegistrarUsuario" text="Registrar Usuário" onAction="#onMenuItemRegistrarUsuario"/>
                         <MenuItem fx:id="menuItemFormFolhaDePonto" text="Registrar Folha de Ponto" onAction="#onMenuItemFormFolhaDePonto"/>
@@ -22,7 +22,6 @@
                     <items>
                         <MenuItem fx:id="menuItemSobre" text="Sobre" onAction="#onMenuItemSobreAction"/>
                         <MenuItem fx:id="menuItemLogout" text="Logout" onAction="#onMenuItemLogout"/>
-
                     </items>
                 </Menu>
             </menus>

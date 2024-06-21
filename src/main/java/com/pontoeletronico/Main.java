@@ -31,6 +31,17 @@ public class Main extends Application {
         return mainScene;
     }
 
+    public static MainViewController getMainViewController() {
+        FXMLLoader loader = new FXMLLoader(Main.class.getResource("/com/pontoeletronico/MainView.fxml"));
+        try {
+            VBox vbox = loader.load();
+            return loader.getController();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static void loadMainView(String fxml) {
         try {
             FXMLLoader loader = new FXMLLoader(Main.class.getResource(fxml));

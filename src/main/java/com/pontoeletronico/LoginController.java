@@ -7,6 +7,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import util.Alerts;
+import model.entities.Login;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,9 +27,18 @@ public class LoginController {
         String email = txtEmail.getText();
         String senha = txtSenha.getText();
 
-        if (authenticate(email, senha)) {
+        Login login = authenticate(email, senha);
+        if (login != null) {
             try {
-                Main.loadMainView("/com/pontoeletronico/MainView.fxml");
+                if ("admin".equals(login.getTipo())) {
+                    Main.loadMainView("/com/pontoeletronico/MainViewAdmin.fxml");
+                } else {
+                    Main.loadMainView("/com/pontoeletronico/MainViewFuncionario.fxml");
+                }
+                MainViewController mainController = Main.getMainViewController();
+                if (mainController != null) {
+                    mainController.setUsuarioLogado(login);
+                }
             } catch (Exception e) {
                 Alerts.showAlert("Erro", null, "Erro ao carregar a tela principal.", Alert.AlertType.ERROR);
                 e.printStackTrace();
@@ -38,7 +48,17 @@ public class LoginController {
         }
     }
 
-    private boolean authenticate(String email, String password) {
+    @FXML
+    private void onBtnRegistrar(ActionEvent event) {
+        try {
+            Main.loadMainView("/com/pontoeletronico/RegistroUsuario.fxml");
+        } catch (Exception e) {
+            Alerts.showAlert("Erro", null, "Erro ao carregar a tela de registro.", Alert.AlertType.ERROR);
+            e.printStackTrace();
+        }
+    }
+
+    private Login authenticate(String email, String password) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -51,10 +71,19 @@ public class LoginController {
             stmt.setString(2, password);
             rs = stmt.executeQuery();
 
-            return rs.next();
+            if (rs.next()) {
+                return new Login(
+                        rs.getInt("id"),
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("senha"),
+                        rs.getString("tipo") // Capturar o valor de tipo
+                );
+            }
+            return null;
         } catch (SQLException e) {
             Alerts.showAlert("Erro de Banco de Dados", null, e.getMessage(), Alert.AlertType.ERROR);
-            return false;
+            return null;
         } finally {
             DB.closeStatement(stmt);
             DB.closeResultSet(rs);

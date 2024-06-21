@@ -3,24 +3,26 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.pontoeletronico.MainViewController">
     <children>
-        <MenuBar>
+        <MenuBar fx:id="menuBar">
             <menus>
-                <Menu text="Cadastro">
+                <Menu fx:id="menuCadastro" text="Cadastro">
                     <items>
-                        <MenuItem text="Registrar Folha de Ponto" onAction="#onMenuItemFormFolhaDePonto"/>
-                        <MenuItem text="Funcionário" onAction="#onMenuItemFuncionarioAction"/>
-                        <MenuItem text="Departamento" onAction="#onMenuItemDepartamentoAction"/>
-                        <MenuItem text="Lista de folha " onAction="#onMenuItemFolhaDePonto"/>
+                        <MenuItem fx:id="menuItemRegistrarUsuario" text="Registrar Usuário" onAction="#onMenuItemRegistrarUsuario"/>
+                        <MenuItem fx:id="menuItemFormFolhaDePonto" text="Registrar Folha de Ponto" onAction="#onMenuItemFormFolhaDePonto"/>
+                        <MenuItem fx:id="menuItemFuncionario" text="Funcionário" onAction="#onMenuItemFuncionarioAction"/>
+                        <MenuItem fx:id="menuItemDepartamento" text="Departamento" onAction="#onMenuItemDepartamentoAction"/>
+                        <MenuItem fx:id="menuItemFolhaDePonto" text="Lista de folha" onAction="#onMenuItemFolhaDePonto"/>
                     </items>
                 </Menu>
                 <Menu text="Ajuda">
                     <items>
-                        <MenuItem text="Sobre" onAction="#onMenuItemSobreAction"/>
+                        <MenuItem fx:id="menuItemSobre" text="Sobre" onAction="#onMenuItemSobreAction"/>
+                        <MenuItem fx:id="menuItemLogout" text="Logout" onAction="#onMenuItemLogout"/>
+
                     </items>
                 </Menu>
             </menus>
