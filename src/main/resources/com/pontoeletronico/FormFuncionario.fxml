@@ -12,55 +12,42 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.pontoeletronico.FormFuncionarioController">
-    <children>
-        <GridPane>
-            <children>
-                <Label text="ID:" />
-                <TextField fx:id="txtId" disable="true" GridPane.columnIndex="1" />
-                <Label text="Nome:" GridPane.rowIndex="1" />
-                <TextField fx:id="txtNome" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Label text="CPF:" GridPane.rowIndex="2" />
-                <TextField fx:id="txtCpf" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <Label text="Email:" GridPane.rowIndex="3" />
-                <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <Label text="Data de Nascimento:" GridPane.rowIndex="4" />
-                <DatePicker fx:id="dpDataNascimento" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                <Label text="Horário de Expediente:" GridPane.rowIndex="5" />
-                <TextField fx:id="txtHorarioExpediente" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                <Label text="Departamento:" GridPane.rowIndex="6" />
-                <ComboBox fx:id="comboBoxDepartamento" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            </children>
-            <padding>
-                <Insets bottom="10" left="10" right="10" top="10" />
-            </padding>
-         <columnConstraints>
-            <ColumnConstraints />
-            <ColumnConstraints />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-            <RowConstraints />
-         </rowConstraints>
-        </GridPane>
-        <HBox spacing="10">
-            <children>
-                <Button onAction="#onBtSalvarAction" text="Salvar" />
-                <Button onAction="#onBtCancelarAction" text="Cancelar" />
-            </children>
-            <padding>
-                <Insets bottom="0" left="0" right="0" top="10" />
-            </padding>
-        </HBox>
-        <Label fx:id="labelErrorNome" />
-        <Label fx:id="labelErrorCpf" />
-        <Label fx:id="labelErrorEmail" />
-        <Label fx:id="labelErrorDataNascimento" />
-        <Label fx:id="labelErrorHorarioExpediente" />
-    </children>
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.pontoeletronico.FormFuncionarioController" spacing="10" alignment="CENTER" stylesheets="/style.css">
+    <padding>
+        <Insets bottom="20" left="20" right="20" top="20" />
+    </padding>
+
+    <GridPane hgap="10" vgap="10">
+        <Label text="ID:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtId" disable="true" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+        <Label text="Nome:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtNome" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+        <Label text="CPF:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtCpf" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+        <Label text="Email:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtEmail" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+        <Label text="Data de Nascimento:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <DatePicker fx:id="dpDataNascimento" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+        <Label text="Horário de Expediente:" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtHorarioExpediente" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+
+        <Label text="Departamento:" GridPane.rowIndex="6" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="comboBoxDepartamento" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+    </GridPane>
+
+    <HBox spacing="10">
+        <Button onAction="#onBtSalvarAction" text="Salvar"/>
+        <Button onAction="#onBtCancelarAction" text="Cancelar"/>
+    </HBox>
+
+    <Label fx:id="labelErrorNome" style="-fx-text-fill: red;"/>
+    <Label fx:id="labelErrorCpf" style="-fx-text-fill: red;"/>
+    <Label fx:id="labelErrorEmail" style="-fx-text-fill: red;"/>
+    <Label fx:id="labelErrorDataNascimento" style="-fx-text-fill: red;"/>
+    <Label fx:id="labelErrorHorarioExpediente" style="-fx-text-fill: red;"/>
 </VBox>

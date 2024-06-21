@@ -1,10 +1,49 @@
-.root {
-    -fx-background-color: #000000;
+
+
+AnchorPane {
+    -fx-background-color: #E6E6FA;
 }
-.btncolor {
-    -fx-background-radius: 20px;
-    -fx-border-radius: 20px;
-    -fx-cursor: hand;
-    -fx-padding: 5px 15px 5px 15px;
-    -fx-background-color:  #5cb85c;
+
+VBox {
+    -fx-padding: 10;
+    -fx-spacing: 10;
+}
+
+Label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #5487b6;
+}
+
+Button {
+    -fx-background-color: #007bff;
+    -fx-text-fill: white;
+
+}
+
+
+TextField, PasswordField, ChoiceBox {
+    -fx-background-color: white;
+    -fx-border-color: #ccc;
+    -fx-padding: 5;
+    -fx-font-size: 12px;
+}
+.login{
+    -fx-background-color: linear-gradient(to right, rgb(81, 187, 225), rgb(32, 58, 67), rgb(44, 83, 100));
+}
+
+.login-titulo{
+    -fx-font-size: 24px;
+    -fx-text-fill: #ffffff;
+
+
+}
+
+.login-form-label{
+    -fx-font-size: 18px;
+    -fx-text-fill: #c0c0c0;
+}
+
+.login-form-botao{
+    -fx-font-size: 14px;
+    -fx-text-fill: #3044cf;
 }

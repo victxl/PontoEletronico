@@ -15,6 +15,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         loadLoginView(primaryStage);
+        primaryStage.setMinWidth(600); // Defina a largura mínima
+        primaryStage.setMinHeight(400);
     }
 
     public static void loadLoginView(Stage stage) {

@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="388.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.ListaDeDepartamentoController">
+<VBox prefHeight="388.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.ListaDeDepartamentoController" stylesheets="/style.css">
     <children>
-        <Label text="Registro Departamento">
+        <Label text="Registro Departamento" style="-fx-font-size: 14; -fx-font-weight: bold;">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>

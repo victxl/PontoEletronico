@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.ListaDeFuncionarioController">
-    <Label text="Registro Funcionario">
-        <font>
-            <Font name="System Bold" size="14.0"/>
-        </font>
-        <padding>
-            <Insets left="5.0" top="5.0"/>
-        </padding>
-    </Label>
-    <ToolBar prefHeight="40.0" prefWidth="200.0">
-        <items>
-            <Button fx:id="novo" mnemonicParsing="false" onAction="#onBtnNovo" text="Novo"/>
-        </items>
-    </ToolBar>
-    <TableView fx:id="tableViewFuncionario" prefHeight="200.0" prefWidth="200.0">
 
-        <columns>
-            <TableColumn fx:id="tableColumnId" text="ID"/>
-            <TableColumn fx:id="tableColumnNome" text="Nome"/>
-            <TableColumn fx:id="tableColumnEmail" text="Email"/>
-            <TableColumn fx:id="tableColumnCpf" text="CPF"/>
-            <TableColumn fx:id="tableColumnHorarioExpediente" text="Horário de Expediente"/>
-            <TableColumn fx:id="tableColumnEDIT" text="EDIT"/>
-            <TableColumn fx:id="tableColumnREMOVE" text="REMOVE"/>
-        </columns>
-    </TableView>
+<VBox prefHeight="388.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.ListaDeFuncionarioController" stylesheets="/style.css">
+    <children>
+        <Label text="Registro Funcionario" style="-fx-font-size: 14; -fx-font-weight: bold;">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+            <padding>
+                <Insets left="5.0" top="5.0" />
+            </padding>
+        </Label>
+        <ToolBar prefHeight="40.0" prefWidth="200.0">
+            <items>
+                <Button fx:id="novo" mnemonicParsing="false" onAction="#onBtnNovo" text="Novo" />
+            </items>
+        </ToolBar>
+        <TableView fx:id="tableViewFuncionario" prefHeight="200.0" prefWidth="200.0">
+            <columns>
+                <TableColumn fx:id="tableColumnId" text="ID"/>
+                <TableColumn fx:id="tableColumnNome" text="Nome"/>
+                <TableColumn fx:id="tableColumnEmail" text="Email"/>
+                <TableColumn fx:id="tableColumnCpf" text="CPF"/>
+                <TableColumn fx:id="tableColumnHorarioExpediente" text="Horário de Expediente"/>
+                <TableColumn fx:id="tableColumnEDIT" text="EDIT"/>
+                <TableColumn fx:id="tableColumnREMOVE" text="REMOVE"/>
+            </columns>
+        </TableView>
+    </children>
 </VBox>

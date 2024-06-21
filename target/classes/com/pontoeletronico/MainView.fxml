@@ -5,28 +5,28 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.pontoeletronico.MainViewController">
+<VBox stylesheets="/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.MainViewController">
     <children>
         <MenuBar fx:id="menuBar">
             <menus>
                 <Menu fx:id="menuCadastro" text="Cadastro">
                     <items>
-                        <MenuItem fx:id="menuItemRegistrarUsuario" text="Registrar Usuário" onAction="#onMenuItemRegistrarUsuario"/>
-                        <MenuItem fx:id="menuItemFormFolhaDePonto" text="Registrar Folha de Ponto" onAction="#onMenuItemFormFolhaDePonto"/>
-                        <MenuItem fx:id="menuItemFuncionario" text="Funcionário" onAction="#onMenuItemFuncionarioAction"/>
-                        <MenuItem fx:id="menuItemDepartamento" text="Departamento" onAction="#onMenuItemDepartamentoAction"/>
-                        <MenuItem fx:id="menuItemFolhaDePonto" text="Lista de folha" onAction="#onMenuItemFolhaDePonto"/>
+                        <MenuItem fx:id="menuItemRegistrarUsuario" onAction="#onMenuItemRegistrarUsuario" text="Registrar Usuário" />
+                        <MenuItem fx:id="menuItemFormFolhaDePonto" onAction="#onMenuItemFormFolhaDePonto" text="Registrar Folha de Ponto" />
+                        <MenuItem fx:id="menuItemFuncionario" onAction="#onMenuItemFuncionarioAction" text="Funcionário" />
+                        <MenuItem fx:id="menuItemDepartamento" onAction="#onMenuItemDepartamentoAction" text="Departamento" />
+                        <MenuItem fx:id="menuItemFolhaDePonto" onAction="#onMenuItemFolhaDePonto" text="Lista de folha" />
                     </items>
                 </Menu>
                 <Menu text="Ajuda">
                     <items>
-                        <MenuItem fx:id="menuItemSobre" text="Sobre" onAction="#onMenuItemSobreAction"/>
-                        <MenuItem fx:id="menuItemLogout" text="Logout" onAction="#onMenuItemLogout"/>
+                        <MenuItem fx:id="menuItemSobre" onAction="#onMenuItemSobreAction" text="Sobre" />
+                        <MenuItem fx:id="menuItemLogout" onAction="#onMenuItemLogout" text="Logout" />
 
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-        <VBox fx:id="mainPane" prefHeight="400.0" prefWidth="900.0"/>
+        <VBox fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="900.0" />
     </children>
 </VBox>

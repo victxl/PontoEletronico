@@ -1,4 +1,6 @@
-
+.root {
+    -fx-background-color: #f5f5f5;
+}
 
 AnchorPane {
     -fx-background-color: #E6E6FA;
@@ -10,22 +12,22 @@ VBox {
 }
 
 Label {
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
     -fx-text-fill: #5487b6;
 }
 
 Button {
     -fx-background-color: #007bff;
     -fx-text-fill: white;
-
+    -fx-padding: 10;
+    -fx-font-size: 14px;
 }
-
 
 TextField, PasswordField, ChoiceBox {
     -fx-background-color: white;
     -fx-border-color: #ccc;
     -fx-padding: 5;
-    -fx-font-size: 12px;
+    -fx-font-size: 14px;
 }
 .login{
     -fx-background-color: linear-gradient(to right, rgb(81, 187, 225), rgb(32, 58, 67), rgb(44, 83, 100));
@@ -33,9 +35,7 @@ TextField, PasswordField, ChoiceBox {
 
 .login-titulo{
     -fx-font-size: 24px;
-    -fx-text-fill: #ffffff;
-
-
+    -fx-text-fill: #c0c0c0;
 }
 
 .login-form-label{

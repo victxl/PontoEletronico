@@ -5,7 +5,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.pontoeletronico.MainViewController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.pontoeletronico.MainViewController" stylesheets="/style.css">
     <children>
         <MenuBar>
             <menus>
@@ -22,6 +22,6 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <VBox fx:id="mainPane" prefHeight="400.0" prefWidth="900.0"/>
+        <VBox fx:id="mainPane" prefHeight="900.0" prefWidth="900.0"/>
     </children>
 </VBox>

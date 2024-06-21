@@ -5,11 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<VBox xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.ListaDeFolhaDePontoController">
-    <Label text="Registro de Folhas de Ponto">
-        <font>
-            <Font name="System Bold" size="14.0"/>
-        </font>
+<VBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.pontoeletronico.ListaDeFolhaDePontoController" spacing="10" alignment="CENTER" stylesheets="/style.css">
+    <Label text="Registro de Folhas de Ponto" style="-fx-font-size: 14; -fx-font-weight: bold;">
         <padding>
             <Insets left="5.0" top="5.0"/>
         </padding>

@@ -4,22 +4,29 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.LoginController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"   stylesheets="Style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pontoeletronico.LoginController">
    <children>
       <BorderPane prefHeight="422.0" prefWidth="600.0">
          <left>
             <AnchorPane prefHeight="200.0" prefWidth="258.0" style="-fx-background-color: #191970;" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="32.0" layoutY="82.0" text="PontoEletronic" textFill="WHITE">
+                  <Label layoutX="32.0" layoutY="82.0" text="PontoEletronic" textFill="WHITE" styleClass="login-titulo">
                      <font>
                         <Font name="Arial Black" size="24.0" />
                      </font>
                   </Label>
+                  <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="38.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@img/logo.png" />
+                     </image>
+                  </ImageView>
                </children>
             </AnchorPane>
          </left>
@@ -27,13 +34,13 @@
             <AnchorPane prefHeight="200.0" prefWidth="263.0" BorderPane.alignment="CENTER">
                <children>
                   <Label layoutX="20.0" layoutY="50.0" text="Email:" />
-                  <TextField fx:id="txtEmail" layoutX="20.0" layoutY="70.0" prefWidth="200.0"/>
+                  <TextField fx:id="txtEmail" layoutX="20.0" layoutY="70.0" prefWidth="200.0" />
 
                   <Label layoutX="20.0" layoutY="110.0" text="Senha:" />
-                  <PasswordField fx:id="txtSenha" layoutX="20.0" layoutY="130.0" prefWidth="200.0"/>
+                  <PasswordField fx:id="txtSenha" layoutX="20.0" layoutY="130.0" prefWidth="200.0" />
 
-                  <Button text="Login" layoutX="20.0" layoutY="180.0" onAction="#setLoginButton" />
-                  <Button text="Registrar" layoutX="120.0" layoutY="180.0" onAction="#onBtnRegistrar" />
+                  <Button layoutX="20.0" layoutY="180.0" onAction="#setLoginButton" text="Login" />
+
                </children>
             </AnchorPane>
          </right>

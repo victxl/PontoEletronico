@@ -2,13 +2,18 @@ package com.pontoeletronico;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.Pane;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.entities.Login;
 import model.services.DepartamentoService;
 import model.services.FolhaDePontoService;
 import model.services.FuncionarioService;
+import util.Alerts;
 
 import java.io.IOException;
 import java.util.function.Consumer;
@@ -96,21 +101,37 @@ public class MainViewController {
         Main.restartApplication();
     }
 
-    private <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
+    private synchronized <T> void loadView(String absoluteName, Consumer<T> initializingAction) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-            Pane newPane = loader.load(); // Usando Pane para aceitar qualquer tipo de layout
-            mainPane.getChildren().clear();
-            mainPane.getChildren().add(newPane);
-            VBox.setVgrow(newPane, javafx.scene.layout.Priority.ALWAYS);
+            Parent newView = loader.load(); // Usando Parent em vez de VBox
+
+            Scene mainScene = Main.getMainScene();
+            VBox mainVBox;
+            if (mainScene.getRoot() instanceof ScrollPane) {
+                mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+            } else if (mainScene.getRoot() instanceof VBox) {
+                mainVBox = (VBox) mainScene.getRoot();
+            } else {
+                throw new IllegalStateException("Unsupported root node: " + mainScene.getRoot().getClass().getName());
+            }
+
+            Node mainMenu = mainVBox.getChildren().get(0);
+            mainVBox.getChildren().clear();
+            mainVBox.getChildren().add(mainMenu);
+            mainVBox.getChildren().add(newView); // Adicionando a nova visualização carregada
 
             T controller = loader.getController();
             if (initializingAction != null) {
                 initializingAction.accept(controller);
             }
         } catch (IOException e) {
+            Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), Alert.AlertType.ERROR);
             e.printStackTrace();
         }
     }
 
 }
+
+
+
