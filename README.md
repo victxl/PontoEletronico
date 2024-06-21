@@ -1,6 +1,7 @@
 # Ponto Eletrônico
 
-Bem-vindo ao Ponto Eletrônico! Este sistema é projetado para simplificar a gestão de presença dos funcionários, proporcionando um ambiente intuitivo e eficiente para o registro e monitoramento de horários.
+Bem-vindo ao Ponto Eletrônico! Este sistema é projetado para simplificar a gestão de presença dos funcionários,
+proporcionando um ambiente intuitivo e eficiente para o registro e monitoramento de horários.
 
 ## Funcionalidades
 
@@ -17,37 +18,35 @@ Bem-vindo ao Ponto Eletrônico! Este sistema é projetado para simplificar a ges
 ## Instalação
 
 1. Clone o repositório:
+   git clone https://github.com/usuario/pontoeletronico.git
 
-git clone https://github.com/usuario/pontoeletronico.git
-Navegue até o diretório do projeto:
+2. Navegue até o diretório do projeto:
+   cd pontoeletronico
 
+3. Compile o projeto:
+   mvn clean install
 
-cd pontoeletronico
-Compile o projeto:
+4. Execute a aplicação:
+   mvn javafx:run
 
+## Suporte
 
-mvn clean install
-
-Execute a aplicação:
-
-
-mvn javafx:run
-
-Suporte
 Para qualquer dúvida ou problema, entre em contato com nossa equipe de suporte através do email suporte@pontoeletronico.com.br.
 
-Contribuição
+## Contribuição
 
-Fork este repositório.
-Crie uma branch para a sua feature (git checkout -b feature/nova-feature).
-Faça commit das suas alterações (git commit -am 'Adiciona nova feature').
-Faça push para a branch (git push origin feature/nova-feature).
-Abra um Pull Request.
-Licença
+- Fork este repositório.
+- Crie uma branch para a sua feature: git checkout -b feature/nova-feature.
+- Faça commit das suas alterações: git commit -am 'Adiciona nova feature'.
+- Faça push para a branch: git push origin feature/nova-feature.
+- Abra um Pull Request.
+
+## Licença
+
 Este projeto está licenciado sob a Licença MIT. Veja o arquivo LICENSE para mais detalhes.
 
-Versão
+## Versão
+
 Versão 1.0
 
 Agradecemos por escolher o Ponto Eletrônico!
-
