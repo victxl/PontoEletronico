@@ -27,14 +27,17 @@ Compile o projeto:
 
 
 mvn clean install
+
 Execute a aplicação:
 
 
 mvn javafx:run
+
 Suporte
 Para qualquer dúvida ou problema, entre em contato com nossa equipe de suporte através do email suporte@pontoeletronico.com.br.
 
 Contribuição
+
 Fork este repositório.
 Crie uma branch para a sua feature (git checkout -b feature/nova-feature).
 Faça commit das suas alterações (git commit -am 'Adiciona nova feature').
