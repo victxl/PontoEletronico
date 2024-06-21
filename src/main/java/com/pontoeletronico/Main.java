@@ -14,14 +14,17 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/pontoeletronico/Login.fxml"));
-            VBox vbox = loader.load();
+        loadLoginView(primaryStage);
+    }
 
+    public static void loadLoginView(Stage stage) {
+        try {
+            FXMLLoader loader = new FXMLLoader(Main.class.getResource("/com/pontoeletronico/Login.fxml"));
+            VBox vbox = loader.load();
             mainScene = new Scene(vbox);
-            primaryStage.setScene(mainScene);
-            primaryStage.setTitle("Ponto Eletrônico - Login");
-            primaryStage.show();
+            stage.setScene(mainScene);
+            stage.setTitle("Ponto Eletrônico - Login");
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,6 +53,11 @@ public class Main extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void restartApplication() {
+        Stage stage = (Stage) mainScene.getWindow();
+        loadLoginView(stage);
     }
 
     public static void main(String[] args) {
